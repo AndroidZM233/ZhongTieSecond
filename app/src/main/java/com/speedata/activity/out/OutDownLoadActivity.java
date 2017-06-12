@@ -1,0 +1,366 @@
+package com.speedata.activity.out;
+
+import android.app.AlertDialog;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.speedata.activity.BaseActivity;
+import com.speedata.adapter.OutUploadListAdapter;
+import com.speedata.bean.AllotRecord;
+import com.speedata.bean.InRegister;
+import com.speedata.bean.MyDateAndTime;
+import com.speedata.bean.OutRegister;
+import com.speedata.bean.ResultEntity;
+import com.speedata.bean.StoreBean;
+import com.speedata.dao.AllotRegisterDao;
+import com.speedata.dao.InRegisterDao;
+import com.speedata.dao.OutRegisterDao;
+import com.speedata.dao.StoreDao;
+import com.speedata.dreamdemo.R;
+import com.speedata.model.HttpInterfaceModel;
+import com.speedata.utils.Constant;
+import com.speedata.utils.MyLogger;
+import com.speedata.utils.PageUtil;
+import com.speedata.utils.ParseData;
+import com.speedata.utils.ProgressDialogUtils;
+import com.speedata.utils.SetBillTimeUtils;
+import com.speedata.utils.WebServiceUtils;
+import com.speedata.view.SelectDateDialog;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class OutDownLoadActivity extends BaseActivity implements View.OnClickListener {
+    private InRegisterDao inRegisterDao;
+    private StoreDao storeDao;
+    private OutRegisterDao outRegisterDao;
+    private HashMap<String, Object> properties = new HashMap<String, Object>();
+    private String start;
+    private String end;
+    private int return_count;
+    private WebServiceUtils utils;
+    private String return_data;
+    private AlertDialog.Builder alertDialog;
+    private ParseData parseData;
+    private List parseDataList;
+    private final int STATE_PAGING = 3;
+    private final int STATE_SUCCESS = 1;
+    private final int STATE_NO_DATA = 2;
+    private final int FAILED = 5;
+    private OutRegister outRegister;
+    private AllotRecord allotRecord;
+    private AllotRegisterDao allotRegisterDao;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initUI();
+        inRegisterDao = new InRegisterDao(mContext);
+        storeDao = new StoreDao(mContext);
+        outRegister = new OutRegister();
+        outRegisterDao = new OutRegisterDao(mContext);
+        allotRecord = new AllotRecord();
+        allotRegisterDao = new AllotRegisterDao(mContext);
+    }
+
+    private Button btnSure;
+    private TextView tvStart, tvEnd;
+    private ListView listView;
+
+    private void initUI() {
+        setContentView(R.layout.activity_out_down_load);
+        setTitle("下载发料单");
+        tvStart = (TextView) findViewById(R.id.tv_start);
+        tvEnd = (TextView) findViewById(R.id.tv_end);
+        MyDateAndTime myDateAndTime = MyDateAndTime.praseDateAndTime(MyDateAndTime.getTimeString
+                ("yyyy-MM-dd " +
+                        "HH:mm:ss"));
+        SetBillTimeUtils setBillTimeUtils = new SetBillTimeUtils();
+        //判断账单日
+        if (myDateAndTime.getDay() > Constant.ACCOUNT_DAY) {
+            tvStart.setText(setBillTimeUtils.billtimeSub1());
+            tvEnd.setText(setBillTimeUtils.billtimeAdd1());
+        } else {
+            tvStart.setText(setBillTimeUtils.billtimeSub1());
+            tvEnd.setText(setBillTimeUtils.billtime());
+        }
+        tvStart.setOnClickListener(this);
+        tvEnd.setOnClickListener(this);
+        btnSure = (Button) findViewById(R.id.btn_save);
+        btnSure.setOnClickListener(this);
+        listView = (ListView) findViewById(R.id.listview);
+    }
+
+
+    private MyLogger logger = MyLogger.jLog();
+    int getCount = 0;
+
+    @Override
+    public void onClick(View v) {
+        if (v == tvStart) {
+            SelectDateDialog dateDialog = new SelectDateDialog(mContext, new SelectDateDialog
+                    .ShowDate() {
+                @Override
+                public void showDate(String time) {
+                    tvStart.setText(time);
+                }
+            }, tvStart.getText().toString());
+            dateDialog.show();
+        } else if (v == tvEnd) {
+            SelectDateDialog dateDialog = new SelectDateDialog(mContext, new SelectDateDialog
+                    .ShowDate() {
+                @Override
+                public void showDate(String time) {
+                    tvEnd.setText(time);
+                }
+            }, tvEnd.getText().toString());
+            dateDialog.show();
+        } else if (v == btnSure) {
+            start = tvStart.getText().toString();
+            end = tvEnd.getText().toString();
+            getCount = 0;
+            ProgressDialogUtils.showProgressDialog(mContext, "正在下载");
+            downLoadOutRegister.clear();
+            downLoadInfors(HttpInterfaceModel.DownLoadDeliveryRecordItemCount,
+                    HttpInterfaceModel.DownLoadDeliveryRecordItem);
+        }
+    }
+
+    private String getKey() {
+        return utils.getMETHOD() + "Result";
+    }
+
+    private boolean cancleProdialog(ResultEntity result) {
+        Message msg = new Message();
+        msg.obj = result;
+        msg.what = 0;
+        handler.sendMessage(msg);
+
+        if (!result.isSuccess()) {
+            return true;
+        }
+        return false;
+    }
+
+    private int pageSize = 100;
+
+    private void downLoadInfors(String getCountMethod, final String getInfor) {
+        utils = new WebServiceUtils(getCountMethod, mContext);
+        properties.clear();
+        properties.put("ProjectID", app.getSharedPreferences().getString(Constant
+                .FIELD_PROJETC, Constant.FIELD_DEFAULT_PROJETC));
+        properties.put("BeginDate", start);
+        properties.put("EndDate", end);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                utils.callWebService(mContext, properties, new WebServiceUtils.WebServiceCallBack
+                        () {
+                    @Override
+                    public void callBack(ResultEntity result) {
+                        if (!result.isSuccess()) {
+                            Message msg = new Message();
+                            msg.what = FAILED;
+                            msg.obj = result.getData();
+                            handler.sendMessage(msg);
+                            return;
+                        }
+                        return_count = Integer.parseInt(result.getData());
+                        final PageUtil pageUtil = new PageUtil(pageSize, return_count);
+                        utils = new WebServiceUtils(getInfor, mContext);
+                        for (int i = 0; i < pageUtil.getPageCount(); i++) {
+                            properties.clear();
+                            pageUtil.setCurrentPage(i + 1);
+                            properties.put("pageSize", pageSize);
+                            properties.put("currentPage", pageUtil.getCurrentPage());
+                            properties.put("ProjectID", app.getSharedPreferences().getString
+                                    (Constant
+                                            .FIELD_PROJETC, Constant.FIELD_DEFAULT_PROJETC));
+                            properties.put("BeginDate", start);
+                            properties.put("EndDate", end);
+                            utils.callWebService2(mContext, properties, new WebServiceUtils
+                                    .WebServiceCallBack() {
+                                @Override
+                                public void callBack(ResultEntity result) {
+                                    Message msg;
+                                    if (!result.isSuccess()) {
+                                        msg = new Message();
+                                        msg.what = FAILED;
+                                        msg.obj = result.getData();
+                                        handler.sendMessage(msg);
+                                        return;
+                                    }
+                                    return_data = result.getData();
+                                    logger.d("====return_data===" + return_data);
+//                                    Message msg = new Message();
+//                                    msg.obj = return_data;
+//                                    msg.what = STATE_PAGING;
+//                                    handler.sendMessage(msg);
+                                    parseData = new ParseData();
+                                    parseDataList = new ArrayList();
+                                    logger.d("==================supply===" + return_data);
+
+                                    parseDataList = parseData.ParseDataList(return_data, getKey(),
+                                            OutRegister.class);
+                                    if (outRegisterDao == null) {
+                                        outRegisterDao = new OutRegisterDao(mContext);
+                                    }
+                                    if (parseDataList.size() > 0) {
+                                        downLoadOutRegister.addAll(parseDataList);
+                                    } else {
+                                        msg = new Message();
+                                        msg.what = STATE_NO_DATA;
+                                        msg.obj = return_data;
+                                        handler.sendMessage(msg);
+                                    }
+                                }
+                            });
+                        }
+
+                        if (downLoadOutRegister.size()==return_count){
+                            Message msg_success = new Message();
+                            msg_success.what = STATE_SUCCESS;
+                            msg_success.obj = return_count;
+                            handler.sendMessage(msg_success);
+                        }
+                        if (return_count == 0) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showMessage("无下载数据");
+                                }
+                            });
+                        }
+                        // 关闭进度条
+                        if (cancleProdialog(result)) return;
+                    }
+                });
+            }
+        }).start();
+    }
+
+
+    private OutUploadListAdapter OutUploadListAdapter;
+    List<OutRegister> outRegisters = new ArrayList<OutRegister>();
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    ResultEntity entity = (ResultEntity) msg.obj;
+                    ProgressDialogUtils.dismissProgressDialog();
+                    if (!entity.isSuccess()) {
+                        new AlertDialog.Builder(mContext).setMessage("下载失败" + entity.getData())
+                                .show();
+                    }
+                    break;
+                case FAILED:
+                    ProgressDialogUtils.dismissProgressDialog();
+                    new AlertDialog.Builder(mContext).setMessage("下载失败"+ msg.obj).show();
+                    break;
+                case STATE_SUCCESS:
+                    alertDialog = new AlertDialog.Builder(mContext);
+                    alertDialog.setMessage("下载成功！" + "共计" + return_count
+                            + "条数据").show();
+                    upDateDB();
+                    break;
+                case STATE_NO_DATA:
+                    new AlertDialog.Builder(mContext).setMessage("数据解析失败:" + ((String) msg
+                            .obj)).show();
+                    break;
+                case STATE_PAGING:
+                    parseData = new ParseData();
+                    parseDataList = new ArrayList();
+                    logger.d("==================supply===" + return_data);
+
+                    parseDataList = parseData.ParseDataList(return_data, getKey(),
+                            OutRegister.class);
+                    if (outRegisterDao == null) {
+                        outRegisterDao = new OutRegisterDao(mContext);
+                    }
+                    if (parseDataList.size() > 0) {
+                        downLoadOutRegister.addAll(parseDataList);
+                    } else {
+                        msg = new Message();
+                        msg.what = STATE_NO_DATA;
+                        msg.obj = return_data;
+                        handler.sendMessage(msg);
+                    }
+                    break;
+            }
+        }
+
+    };
+    private List<OutRegister> downLoadOutRegister = new ArrayList<OutRegister>();
+
+    private void upDateDB() {
+        OutUploadListAdapter = new OutUploadListAdapter(mContext, downLoadOutRegister);
+        listView.setAdapter(OutUploadListAdapter);
+//        storeDao.execSql("delete from " +
+//                "store where " +
+//                "ProjectID=" + "\"" + ProjectID + "\"", null);
+        outRegisterDao.imDeleteAll();
+        outRegisterDao.imInsertList(downLoadOutRegister,false);
+        List<OutRegister> tempSum = outRegisterDao.imRawQuery("select " +
+                        "distinct BarCode" +
+                        " from outRegister ",
+                null,
+                OutRegister.class);
+        //插入库存
+        for (int i = 0; i < tempSum.size(); i++) {
+            String barcode = tempSum.get(i).getBarCode();
+            storeDao.execSql("delete from " +
+                    "store where " +
+                    "BarCode=" + "\"" + barcode + "\"", null);
+            logger.d("====barcode=" + barcode);
+            List<InRegister> tempList =
+                    inRegisterDao.imQueryList
+                            ("BarCode=? ", new
+                                    String[]{barcode});
+            List<OutRegister> tempOutList =
+                    outRegisterDao.imQueryList
+                            ("BarCode=? ", new
+                                    String[]{barcode});
+            List<AllotRecord> tempAllotList =
+                    allotRegisterDao.imQueryList
+                            ("BarCode=?", new
+                                    String[]{barcode});
+            logger.d("tempList.size()=" +
+                    tempList.size());
+            logger.d("i=" + i);
+
+            double count = 0;
+            for (int j = 0; j < tempList.size();
+                 j++) {
+                count += tempList.get(j)
+                        .getQuantity();
+                logger.d("count+=" + count);
+            }
+            for (int m = 0; m < tempOutList.size
+                    (); m++) {
+                count = count - tempOutList.get
+                        (m).getQuantity();
+                logger.d("count-=" + count);
+            }
+            for (int z = 0; z < tempAllotList.size
+                    (); z++) {
+                count = count - tempAllotList.get
+                        (z).getQuantity();
+                logger.d("count-=" + count);
+            }
+//            if (tempOutList.size() == 0) {
+//                break;
+//            }
+            StoreBean store = tempOutList.get(0);
+            store.setQuantity(count);
+            storeDao.imInsert(store);
+        }
+    }
+}

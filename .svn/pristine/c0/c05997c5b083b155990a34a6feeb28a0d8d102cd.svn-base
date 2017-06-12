@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="sprtlabelprinterlibrary">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/libs/sprtlabelprinterlibrary.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

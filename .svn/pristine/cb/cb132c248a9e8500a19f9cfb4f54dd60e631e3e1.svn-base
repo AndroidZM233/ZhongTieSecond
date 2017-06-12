@@ -1,0 +1,64 @@
+package com.speedata.activity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.speedata.bean.UserForm;
+import com.speedata.dao.UserDao;
+import com.speedata.dreamdemo.R;
+
+public class AddUserActivity extends BaseActivity implements View.OnClickListener {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initUI();
+    }
+
+    private EditText edvRealName, edvUserID, edvPWD;
+    private Button btnSave;
+    private UserDao userDao;
+
+    private void initUI() {
+        setContentView(R.layout.activity_add_user);
+        setTitle("增加用户");
+        userDao = new UserDao(mContext);
+        edvRealName = (EditText) findViewById(R.id.edv_real_name);
+        edvUserID = (EditText) findViewById(R.id.edv_user_id);
+        edvPWD = (EditText) findViewById(R.id.edv_pwd);
+        btnSave = (Button) findViewById(R.id.btn_save);
+        btnSave.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == btnSave) {
+            String id = edvUserID.getText().toString();
+            String realname = edvRealName.getText().toString();
+            String pwd = edvPWD.getText().toString();
+            if (id.equals("") || realname.equals("") || pwd.equals("")) {
+                Toast.makeText(mContext, "不能为空！", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            UserForm form = new UserForm();
+            form.setUserPassword(pwd);
+            form.setRealName(realname);
+            form.setPermission(false);
+            form.setUserName(id);
+            if (userDao == null) {
+                userDao = new UserDao(mContext);
+            }
+            if (userDao.imQueryList("userName=?", new String[]{id}).size() == 0) {
+                userDao.imInsert(form);
+            } else {
+                Toast.makeText(mContext, "用户名已存在", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            finish();
+        }
+
+    }
+}

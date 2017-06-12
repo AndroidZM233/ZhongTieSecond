@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="printWay">
+        <item>透传模式（无）</item>
+        <item>WP-100</item>
+        <item>WP-200</item>
+        <item>页模式</item>
+    </string-array>
+</resources>

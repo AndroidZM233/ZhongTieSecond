@@ -1,0 +1,149 @@
+package com.speedata.view;
+
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ListView;
+
+import com.speedata.adapter.SimpleTreeAdapter;
+import com.speedata.bean.CommonMaterialInfo;
+import com.speedata.dao.CommonMaterialInfoDao;
+import com.speedata.dreamdemo.R;
+import com.speedata.utils.MyLogger;
+import com.zhy.bean.FileBean;
+import com.zhy.tree.bean.Node;
+import com.zhy.tree.bean.TreeListViewAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Administrator on 2015/11/16.
+ */
+public class MetrailTypeDialog extends Dialog implements View.OnClickListener {
+    private CallBack callBack;
+    private Context mContext;
+    private String type;
+    private CommonMaterialInfoDao commonMaterialInfoDao;
+    private MyLogger logger = MyLogger.jLog();
+    private String FirstClassName;
+    private String SecondClassName;
+    private String InfoClassName;
+    private List<CommonMaterialInfo> list2;
+    private List<CommonMaterialInfo> list3;
+    private List<FileBean> mDatas = new ArrayList<FileBean>();
+    private ListView mTree;
+    private TreeListViewAdapter mAdapter;
+    private ProgressDialog mProgressDialog;
+
+    public MetrailTypeDialog(Context context, CallBack callBack) {
+        super(context);
+        this.callBack = callBack;
+        mContext = context;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initUI();
+    }
+
+    private void initUI() {
+        setContentView(R.layout.dialog_location);
+        mProgressDialog = new ProgressDialog(mContext);
+        InitData();
+        mTree = (ListView) findViewById(R.id.id_tree);
+        try {
+            mAdapter = new SimpleTreeAdapter<FileBean>(mTree, mContext, mDatas, 0);
+
+            mAdapter.setOnTreeNodeClickListener(new TreeListViewAdapter.OnTreeNodeClickListener() {
+                @Override
+                public void onClick(Node node, int position) {
+                    if (node.isLeaf()) {
+                        callBack.callBack(node.getName());
+                        MetrailTypeDialog.this.dismiss();
+                    }
+                }
+
+            });
+            mTree.setAdapter(mAdapter);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void InitData() {
+        commonMaterialInfoDao = new CommonMaterialInfoDao(mContext);
+        List<CommonMaterialInfo> list1 = commonMaterialInfoDao.imRawQuery("select distinct " +
+                "FirstClassName from commonMaterialInfo"
+                , null, CommonMaterialInfo.class);
+        logger.d("=======list.size()=" + list1.size());
+        //循环遍历一、二、三级类别名称
+        int count = 0;
+        int second = 0;
+        int third = 0;
+        for (int i = 0; i < list1.size(); i++) {
+            count++;
+            mDatas.add(new FileBean(count, 0, list1.get(i).getFirstClassName(),list1.get(i).getInfoClassNodebh()));
+//            mDatas.add(new FileBean(count, 0, list1.get(i).getFirstClassName()));
+            list2 = commonMaterialInfoDao.imRawQuery("select distinct SecondClassName from " +
+                    "commonMaterialInfo where FirstClassName like ?"
+                    , new String[]{list1.get(i).getFirstClassName()}, CommonMaterialInfo.class);
+            second = count;
+            for (int j = 0; j < list2.size(); j++) {
+                count++;
+                mDatas.add(new FileBean(count, second, list2.get(j).getSecondClassName(),list1.get(j).getInfoClassNodebh()));
+//                mDatas.add(new FileBean(count, second, list2.get(j).getSecondClassName()));
+                list3 = commonMaterialInfoDao.imRawQuery("select distinct InfoClassName from " +
+                        "commonMaterialInfo where SecondClassName like ?"
+                        , new String[]{list2.get(j).getSecondClassName()}, CommonMaterialInfo
+                        .class);
+                logger.d("=======list3.size()=" + list3.size());
+                third = count;
+                for (int k = 0; k < list3.size(); k++) {
+                    count++;
+                    mDatas.add(new FileBean(count, third, list3.get(k).getInfoClassName(),list3.get(k).getInfoClassNodebh()));
+                }
+            }
+        }
+
+    }
+
+//    //data 为上级编码   len为上级编码长度
+//    private List<AllMetrailClass> query(String data, int parentId, int offset) {
+//        List<AllMetrailClass> infor;
+//        offset += _offset;
+//        infor = allMetrailClassDao.imRawQuery("select * from AllMetrailClass where length " +
+//                "(ClassNodebh) = " + (data.length() + 1) +
+//                " and ClassCode= " + data, null, AllMetrailClass
+//                .class);
+//        if (infor.size() == 0) {
+//            return null;
+//        }
+//        logger.d("=======infor.size()=" + infor.size());
+//        for (int i = 0; i < infor.size(); i++) {
+//            int id = i + parentId + 1 + offset;
+//            mDatas.add(new FileBean(id, parentId, infor.get(i).getClassName(), infor
+//                    .get(i)
+//                    .getClassNodebh() + ""));
+//            logger.d("=======id=" + id + "  parentid=" + parentId + " CKNode" + infor.get(i)
+//                    .getClassCode());
+////            if (!infor.get(i).isLeaf()) {
+////                query(infor.get(i).getClassCode(), id, infor.size());
+////            }
+//        }
+//        return infor;
+//    }
+
+
+    @Override
+    public void onClick(View v) {
+    }
+
+    public interface CallBack {
+        public void callBack(String ClassNodebh);
+    }
+}

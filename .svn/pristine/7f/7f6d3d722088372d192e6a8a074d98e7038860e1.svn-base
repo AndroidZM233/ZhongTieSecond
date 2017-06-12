@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.speedata.dreamdemo"
+    android:versionCode="1"
+    android:versionName="1.6">
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="19" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.hardware.usb.host" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
+    <application
+        android:name="com.speedata.application.CustomerApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/icon_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="com.speedata.activity.LoginActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <activity
+            android:name="com.speedata.activity.MainActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.speedata.activity.print.REGOPrint"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity
+            android:name="com.speedata.activity.ManagerActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.OperatorsHomeActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
+
+        </activity>
+        <activity
+            android:name="com.speedata.activity.in.InActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.allot.AllotActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.allot.AllotDownLoadActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.allot.AllotAgainBarCodeActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.allot.AllotUploadActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.allot.AllotRegisterActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.in.AgainBarCodeActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.out.OutActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.MaintainInfomationActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.out.OutRegisterActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.out.OutAgainBarCodeActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.CheckActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.SystemSettingActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.in.InRegisterActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_in_register"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.in.SupplierRejectActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_supplier_reject"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.print.BTDevicesListActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_print"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.print.BTSelectActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_print"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.android.print.demo.BluetoothDeviceList"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name="com.speedata.activity.check.CheckRegisterActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_check_register"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.out.UserRejectActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_user_reject"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.in.InUpLoadActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_in_up_load"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.SetServiceURLActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_set_service_url"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.in.InDownLoadActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_in_down_load"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.out.OutUploadActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_out_upload"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.out.OutDownLoadActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_out_down_load"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.check.CheckUpLoadActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_check_up_load"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.check.CheckDownLoadActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_check_down_load"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.AddUserActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_add_user"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.DelectUserActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_delect_user"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.ChangeProjectIdActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_change_project_id"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.ChangePwdActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_change_pwd"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.SetAutoUpdateActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_set_auto_update"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity
+            android:name="com.speedata.activity.print.PrintTestActivity"
+            android:label="@string/title_activity_print_test"></activity>
+
+        <service
+            android:name="com.speedata.activity.print.PrinterService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <activity
+            android:name="com.speedata.activity.ForPrintLableActivity"
+            android:label="@string/title_activity_for_print_lable"></activity>
+        <receiver android:name="com.speedata.receiver.BootBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

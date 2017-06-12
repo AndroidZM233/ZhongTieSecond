@@ -1,0 +1,379 @@
+package com.speedata.utils;
+
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.util.Log;
+
+import com.speedata.application.CustomerApplication;
+import com.speedata.bean.ResultEntity;
+
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Iterator;
+import java.util.Map;
+
+public class WebServiceUtils {
+    private MyLogger logger = MyLogger.jLog();
+
+    //    private static final String WEB_SERVICE_URL = "http://36.46.24
+    // .106:8010/service/barcodeservice.asmx?op";
+//    private static final String NAMESPACE = "http://tempuri.org/";
+//    private static final ExecutorService THREAD_POOL = Executors.newFixedThreadPool(3);
+    private String METHOD;
+
+    public String getMETHOD() {
+        return METHOD;
+    }
+
+    public void setMETHOD(String METHOD) {
+        this.METHOD = METHOD;
+    }
+
+    public WebServiceUtils(String METHOD, Context mContext) {
+        this.METHOD = METHOD;
+        CustomerApplication app = (CustomerApplication) mContext.getApplicationContext();
+        WEB_SERVICE_URL = "http://" + app.getSharedPreferences().getString(Constant.FIELD_IP,
+                Constant.FIELD_IP_DEFAUT) + ":" + app
+                .getSharedPreferences().getString(Constant.FIELD_PORT, Constant
+                        .FIELD_PORT_DEFAUT) + "/Service/BarCodeService.asmx?op";
+        //Service/BarCodeService.asmx
+
+    }
+
+    private static final String NAMESPACE = "http://tempuri.org/";
+    private String WEB_SERVICE_URL = "";//= "http://36.44.88.117:8010/service/barcodeservice
+    // .asmx?op";
+//    private static final String getSupportProvince = "GetAllCommonSupplier";
+
+    private void Test() {
+        SoapObject soapObject = new SoapObject(NAMESPACE,
+                METHOD);
+        soapObject.addProperty("projectid", "00001");
+        // 通过SOAP1.1协议得到envelop对象
+        SoapSerializationEnvelope envelop = new SoapSerializationEnvelope(
+                SoapEnvelope.VER11);
+        // 将soapObject对象设置为envelop对象，传出消息
+        envelop.dotNet = true;
+        envelop.setOutputSoapObject(soapObject);
+        HttpTransportSE httpSE = new HttpTransportSE(WEB_SERVICE_URL);
+        try {
+            httpSE.call(NAMESPACE + METHOD, envelop);
+            // 得到远程方法返回的SOAP对象
+            Object resultObj = envelop.getResponse();
+            System.out.println("========" + resultObj);
+//                // 得到服务器传回的数据
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String callWebService(Context mContext, Map<String, Object> params, final
+    WebServiceCallBack
+            webServiceCallBack) {
+        ResultEntity resultEntity = new ResultEntity();
+        if (!isConnect(mContext)) {
+            resultEntity.setIsSuccess(false);
+            resultEntity.setData("无网络连接！");
+            webServiceCallBack.callBack(resultEntity);
+            return null;
+        }
+        if (connect(WEB_SERVICE_URL) != 1) {
+            resultEntity.setIsSuccess(false);
+            resultEntity.setData("无法连接到服务器！请检查服务器地址是否正确！" + WEB_SERVICE_URL);
+            webServiceCallBack.callBack(resultEntity);
+            return null;
+        }
+        final HttpTransportSE http = new HttpTransportSE(WEB_SERVICE_URL);
+        SoapObject object = new SoapObject(NAMESPACE, METHOD);
+        if (params != null && !params.isEmpty()) {
+            for (Iterator<?> it = params.entrySet().iterator(); it
+                    .hasNext(); ) {
+                // 遍历MAP
+                @SuppressWarnings("unchecked")
+                Map.Entry<String, Object> e = (Map.Entry<String, Object>) it
+                        .next();
+                object.addProperty(e.getKey().toString(), e.getValue());
+            }
+        }
+        logger.d("====canshu=" + params.toString());
+//        SoapObject soapObject = new SoapObject(NAMESPACE,
+//                METHOD);
+//        soapObject.addProperty()
+//        if (params != null) {
+//            soapObject.addProperty("projectid", "00001");
+//        }
+        // 通过SOAP1.1协议得到envelop对象
+        SoapSerializationEnvelope envelop = new SoapSerializationEnvelope(
+                SoapEnvelope.VER11);
+        // 将soapObject对象设置为envelop对象，传出消息
+        envelop.dotNet = true;
+        envelop.setOutputSoapObject(object);
+        HttpTransportSE httpSE = new HttpTransportSE(WEB_SERVICE_URL);
+        try {
+            httpSE.call(NAMESPACE + METHOD, envelop);
+            // 得到远程方法返回的SOAP对象
+            Object resultObj = envelop.getResponse();
+            logger.d("========" + resultObj);
+            resultEntity = new ResultEntity();
+           // logger.d("===="+resultEntity);
+            resultEntity.setData(resultObj.toString());
+            resultEntity.setIsSuccess(true);
+            webServiceCallBack.callBack(resultEntity);
+//                // 得到服务器传回的数据
+        } catch (IOException e) {
+            e.printStackTrace();
+            resultEntity = new ResultEntity();
+            resultEntity.setData(e.getMessage());
+            resultEntity.setIsSuccess(false);
+            webServiceCallBack.callBack(resultEntity);
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+            resultEntity = new ResultEntity();
+            resultEntity.setData(e.getMessage());
+            resultEntity.setIsSuccess(false);
+            webServiceCallBack.callBack(resultEntity);
+        }
+        return resultEntity.getData();
+    }
+
+
+    public void callWebService2(Context mContext, Map<String, Object> params, final
+    WebServiceCallBack callBack) {
+        ResultEntity resultEntity = new ResultEntity();
+        if (!isConnect(mContext)) {
+            resultEntity.setIsSuccess(false);
+            resultEntity.setData("无网络连接！");
+            callBack.callBack(resultEntity);
+            return;
+        }
+        if (connect(WEB_SERVICE_URL) != 1) {
+            resultEntity.setIsSuccess(false);
+            resultEntity.setData("无法连接到服务器！请检查服务器地址是否正确！" + WEB_SERVICE_URL);
+            callBack.callBack(resultEntity);
+            return;
+        }
+        final HttpTransportSE http = new HttpTransportSE(WEB_SERVICE_URL);
+        SoapObject object = new SoapObject(NAMESPACE, METHOD);
+        if (params != null && !params.isEmpty()) {
+            for (Iterator<?> it = params.entrySet().iterator(); it
+                    .hasNext(); ) {
+                // 遍历MAP
+                @SuppressWarnings("unchecked")
+                Map.Entry<String, Object> e = (Map.Entry<String, Object>) it
+                        .next();
+                logger.d("key:" + e.getKey().toString() + " value:" + e.getValue());
+                object.addProperty(e.getKey().toString(), e.getValue());
+            }
+        }
+        logger.d("====canshu=" + params.toString());
+        SoapSerializationEnvelope envelop = new SoapSerializationEnvelope(
+                SoapEnvelope.VER11);
+        // 将soapObject对象设置为envelop对象，传出消息
+        envelop.dotNet = true;
+        envelop.setOutputSoapObject(object);
+        HttpTransportSE httpSE = new HttpTransportSE(WEB_SERVICE_URL);
+        try {
+            httpSE.call(NAMESPACE + METHOD, envelop);
+            // 得到远程方法返回的SOAP对象
+
+            SoapObject so = null;
+            http.call(NAMESPACE + METHOD, envelop);
+            String ss = envelop.toString();
+            if (envelop.getResponse() != null) {
+                so = (SoapObject) envelop.bodyIn;
+//                logger.d("========" + resultObj);
+                resultEntity = new ResultEntity();
+//                String returnData=so.toString();
+                String return_data = so.toString();
+                return_data = return_data
+                        .replace(METHOD + "Response", "");
+                return_data = return_data.replace("=", ":");
+                return_data = return_data.replace(";", "");
+                return_data = return_data.replace
+                        (METHOD + "Result",
+                                "\"" + METHOD + "Result\"");
+                return_data = return_data.replace
+                        ("Count", "," +
+                                "\"Count\"");
+                logger.d("===" + return_data);
+                resultEntity.setData(return_data);
+                resultEntity.setIsSuccess(true);
+                callBack.callBack(resultEntity);
+//                // 得到服务器传回的数据
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            resultEntity = new ResultEntity();
+            resultEntity.setData(e.getMessage());
+            resultEntity.setIsSuccess(false);
+            callBack.callBack(resultEntity);
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+            resultEntity = new ResultEntity();
+            resultEntity.setData(e.getMessage());
+            resultEntity.setIsSuccess(false);
+            callBack.callBack(resultEntity);
+        }
+
+
+    }
+
+    public interface WebServiceCallBack {
+        public void callBack(ResultEntity result);
+    }
+
+    public static boolean isConnect(Context context) {
+
+        // 获取手机所有连接管理对象（包括对wi-fi,net等连接的管理）
+        try {
+            ConnectivityManager connectivity = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (connectivity != null) {
+
+                // 获取网络连接管理的对象
+                NetworkInfo info = connectivity.getActiveNetworkInfo();
+
+                if (info != null && info.isConnected()) {
+                    // 判断当前网络是否已经连接
+                    if (info.getState() == NetworkInfo.State.CONNECTED) {
+                        return true;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.v("mcn", e.toString());
+        }
+        return false;
+    }
+
+    public static int connect(String wbUrl) {
+        try {
+            URL url = new URL(wbUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(20 * 1000);
+            conn.setRequestMethod("GET");
+            // 连接服务器正常
+            if (conn.getResponseCode() == 200) {
+                return 1;
+            }
+
+            // 不正常
+            else {
+                // return conn.getResponseCode();
+                return 2;
+            }
+        } catch (Exception ex) {
+            return 3;
+        }
+    }
+
+
+//    public void callWebService(Context mContext, Map<String, Object> params, final
+//    WebServiceCallBack
+//            webServiceCallBack) {
+//        ResultEntity resultEntity = new ResultEntity();
+//        if (!isConnect(mContext)) {
+//            resultEntity.setIsSuccess(false);
+//            resultEntity.setData("无网络连接！");
+//            webServiceCallBack.callBack(resultEntity);
+//            return;
+//        }
+//        if (connect(WEB_SERVICE_URL) != 1) {
+//            resultEntity.setIsSuccess(false);
+//            resultEntity.setData("无法连接到服务器！请检查服务器地址是否正确！");
+//            webServiceCallBack.callBack(resultEntity);
+//            return;
+//        }
+//        final HttpTransportSE http = new HttpTransportSE(WEB_SERVICE_URL);
+//        SoapObject object = new SoapObject(NAMESPACE, METHOD);
+//        if (params != null && !params.isEmpty()) {
+//            for (Iterator<?> it = params.entrySet().iterator(); it
+//                    .hasNext();) {
+//                // 遍历MAP
+//                @SuppressWarnings("unchecked")
+//                Map.Entry<String, Object> e = (Map.Entry<String, Object>) it
+//                        .next();
+//                object.addProperty(e.getKey().toString(), e.getValue());
+//            }
+//        }
+////        }
+//
+//        final SoapSerializationEnvelope envlop = new SoapSerializationEnvelope(SoapEnvelope
+// .VER11);
+//        envlop.setOutputSoapObject(object);
+//        envlop.dotNet = false;
+//        http.debug = true;
+//
+//
+//        THREAD_POOL.submit(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                SoapObject so = null;
+//                try {
+//                    http.call(NAMESPACE + METHOD, envlop);
+//                    String ss = envlop.toString();
+//                    if (envlop.getResponse() != null) {
+//                        so = (SoapObject) envlop.bodyIn;
+//                    }
+//                } catch (HttpResponseException e) {
+//                    e.printStackTrace();
+//                    ResultEntity resultEntity = new ResultEntity();
+//                    if (so != null) {
+//                        resultEntity.setData(((SoapObject) so).toString());
+//                        resultEntity.setIsSuccess(true);
+//                    } else {
+//                        resultEntity.setData("" + e.getMessage());
+//                        resultEntity.setIsSuccess(false);
+//                    }
+//                    webServiceCallBack.callBack(resultEntity);
+//                } catch (IOException e) {
+//                    ResultEntity resultEntity = new ResultEntity();
+//                    if (so != null) {
+//                        resultEntity.setData(((SoapObject) so).toString());
+//                        resultEntity.setIsSuccess(true);
+//                    } else {
+//                        resultEntity.setData("" + e.getMessage());
+//                        resultEntity.setIsSuccess(false);
+//                    }
+//                    webServiceCallBack.callBack(resultEntity);
+//                    e.printStackTrace();
+//                } catch (XmlPullParserException e) {
+//                    e.printStackTrace();
+//                    ResultEntity resultEntity = new ResultEntity();
+//                    if (so != null) {
+//                        resultEntity.setData(((SoapObject) so).toString());
+//                        resultEntity.setIsSuccess(true);
+//                    } else {
+//                        resultEntity.setData("" + e.getMessage());
+//                        resultEntity.setIsSuccess(false);
+//                    }
+//                    webServiceCallBack.callBack(resultEntity);
+//                }
+////                finally {
+////                }
+//                ResultEntity resultEntity = new ResultEntity();
+//                if (so != null) {
+//                    resultEntity.setData(((SoapObject) so).toString());
+//                    resultEntity.setIsSuccess(true);
+//                } else {
+//                    resultEntity.setData("no data");
+//                    resultEntity.setIsSuccess(false);
+//                }
+//                webServiceCallBack.callBack(resultEntity);
+//            }
+//        });
+////        return object.toString();
+//    }
+
+}

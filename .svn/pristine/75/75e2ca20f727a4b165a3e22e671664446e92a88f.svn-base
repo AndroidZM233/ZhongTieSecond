@@ -1,0 +1,73 @@
+package com.speedata.activity;
+
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.Window;
+import android.widget.TextView;
+
+import com.speedata.activity.print.PrintActivity;
+import com.speedata.dreamdemo.R;
+import com.speedata.fragment.LoginFragment;
+
+public class MainActivity extends PrintActivity {
+    private TextView tv_state;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        initUi();
+        setDefaultFragment();
+
+    }
+
+    private void initUi() {
+        tv_state = (TextView) findViewById(R.id.tv_state);
+        tv_state.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isConnected) {
+                    selectBT(REQUEST_CONNECT_BT);
+                    tv_state.setText("打印机状态：正在连接...");
+
+                } else {
+                    if (myOpertion != null && mPrinter != null) {
+                        myOpertion.close();
+                        myOpertion = null;
+                        mPrinter = null;
+                    }
+                    if (iPrinter != null) {
+                        iPrinter.disconnect();
+                    }
+                }
+
+            }
+        });
+
+    }
+
+    @Override
+    public void showConnectState(String state) {
+        tv_state.setText(state);
+    }
+
+    @Override
+    public void showPrintName(String name) {
+
+    }
+
+    /**
+     * 设置默认的Fragment
+     */
+    private void setDefaultFragment() {
+        FragmentManager fm = this.getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container, new LoginFragment());
+        transaction.commit();
+    }
+
+}

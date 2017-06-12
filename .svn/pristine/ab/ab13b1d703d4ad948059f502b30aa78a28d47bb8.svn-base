@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dip"
+                android:layout_margin="6dip"
+                android:layout_marginLeft="10dip"
+                android:gravity="center_vertical"
+                android:text="@string/bonded_devices"
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
+
+            <com.speedata.view.ScrollListView
+                android:id="@+id/bounded_device_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="#666666" />
+
+            <TextView
+                android:id="@+id/available_label_text"
+                android:layout_width="match_parent"
+                android:layout_height="40dip"
+                android:layout_margin="6dip"
+                android:layout_marginLeft="10dip"
+                android:textColor="#ffffff"
+                android:gravity="center_vertical"
+                android:text="@string/available_devices"
+                android:textSize="20sp" />
+
+            <com.speedata.view.ScrollListView
+                android:id="@+id/available_device_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:layout_width="0dip"
+        android:layout_height="0dip" />
+
+</LinearLayout><!-- From: file:/D:/ASproject/ZhongTieSecond/app/src/main/res/layout/bt_select.xml -->

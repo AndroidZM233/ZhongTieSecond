@@ -1,0 +1,372 @@
+package com.speedata.activity.print;
+
+import com.speedata.application.CustomerApplication;
+
+import java.util.ArrayList;
+
+/**
+ * Created by Administrator on 2016/5/25.
+ */
+public class PrintTab {
+
+
+    // mm -> print
+    private static final int MULTIPLE = 8;
+
+    // 字体大小
+    public static final int fontSizeLong = 48;
+    public static final int fontSizeBig = 36;
+    public static final int fontSizeMid = 28;
+    public static final int fontSizeSmall = 20;
+    // 线条宽度
+    private static final int line_width_border = 1;
+    private static final int line_width_separator = 1;
+
+    // private static final int print_margin = 10;
+    private static final int margin_horizontal = 0;
+    private static final int margin_vertical = 3 * MULTIPLE;
+    // 表格边框占用大小
+    private static final int page_height = 55 * MULTIPLE;
+    private static final int page_width = 90 * MULTIPLE;
+
+    // 每行的高度
+    private static final int[] row_height = {4 * MULTIPLE, 4 * MULTIPLE,
+            4 * MULTIPLE, 4 * MULTIPLE, 4 * MULTIPLE, 13 * MULTIPLE};
+    // 每行的宽度
+    private static final int[] line_width = {19 * MULTIPLE, 9 * MULTIPLE,
+            25 * MULTIPLE, 9 * MULTIPLE, 20 * MULTIPLE};
+    private static final int border_width = page_width - 2 * margin_horizontal;
+    private static final int border_height = page_height - 2 * margin_vertical;
+    private static final int top_left_x = margin_horizontal;
+    private static int top_left_y = margin_vertical;// 32
+    private static final int top_right_x = border_width;
+    // private static final int top_right_x = top_left_x + border_width;
+    private static final int top_right_y = top_left_y;
+    private static final int bottom_left_x = top_left_x;
+    private static final int bottom_left_y = top_left_y + border_height;
+    private static final int bottom_right_x = top_right_x;
+    private static final int bottom_right_y = bottom_left_y;
+
+
+    public void printOutTabCPCL(CustomerApplication context, String projectName, String user,
+                                String name, String
+                                        spec, String count, String barcode, String
+                                        time, int printCount) {
+        for (int i = 0; i < printCount; i++) {
+            context.getObject().CON_PageStart(context.getState(), false, 300, 440);
+//            context.getObject().ASCII_CtrlLabelPage(context.getState());
+            ArrayList<String> param = new ArrayList<String>();
+            if (spec.length()>70){
+                spec=spec.substring(0,70);
+            }
+//            spec="哦氨茶碱从拉萨路东南角垃圾偶就哦您就哦您就欧尼事实上实施从萨顶顶";
+//            projectName="哦氨茶碱从拉萨路东南角垃圾偶就哦您就哦您就欧尼事实上实施从萨顶顶";
+            String head_projectName = "项 目 部:" + projectName;
+            String head_user = "用料单位:" + user;
+            String head_name = "材料名称:" + name;
+            String head_count = "数    量:" + count;
+            String head_spec = "规格型号:" + spec;
+            String head_time = "领料日期:" + time;
+            String head_barcode = "条形码 ";
+            int row_11_start_x = 1 * 8 + line_width_border;
+            int row_11_end_x = 600;//row_11_start_x + line_width[0];
+            int row_11_start_y = line_width_border + 10;
+            int row_11_end_y = row_11_start_y + row_height[0];
+            int nameLength = projectName.length();
+            int addLength = 0;
+            int barcodeSize = 160;
+            int belowLength = 37;
+            if (nameLength > 19) {
+                addLength = 30;
+                barcodeSize = 130;
+                belowLength = 7;
+            }
+            int specAddLength = 0;
+            if (spec.length() > 22) {
+                specAddLength = 30;
+                barcodeSize = 130;
+            }
+            int allLong = 0;
+            if (spec.length() > 22 && nameLength > 19) {
+                allLong = 30;
+            }
+            param.add("");//旋转角度 “”为不旋转，90，180 ，270 为旋转的角度参数
+            param.add("24");//24比GBUNSG16字体要大，打印中文
+            param.add("0");//字大小
+            param.add(row_11_start_x + "");//x轴起始位置
+            param.add(row_11_start_y + "");//y轴起始位置
+            param.add(head_projectName);//文本内容
+//            context.getObject().ASCII_PrintString(context.getState(), row_11_start_x, row_11_start_y,1,1,
+//                    head_projectName, "gb2312");
+            context.getObject().ASCII_PrintString(context.getState(), param,
+                    "gb2312");
+            param.clear();
+            int row_21_start_y = row_11_end_y + line_width_separator + addLength;
+            int row_21_end_y = row_21_start_y + row_height[1];
+            param.add("");//旋转角度 “”为不旋转，90，180 ，270 为旋转的角度参数
+            param.add("24");//24比GBUNSG16字体要大，打印中文
+            param.add("0");//字大小
+            param.add(row_11_start_x + "");//x轴起始位置
+            param.add(row_21_start_y + "");//y轴起始位置
+            param.add(head_user);//文本内容
+            context.getObject().ASCII_PrintString(context.getState(), param,
+                    "gb2312");
+            param.clear();
+            int row_31_start_y = row_21_end_y + line_width_separator;
+            int row_31_end_y = row_31_start_y + row_height[2];
+            param.add("");//旋转角度 “”为不旋转，90，180 ，270 为旋转的角度参数
+            param.add("24");//24比GBUNSG16字体要大，打印中文
+            param.add("0");//字大小
+            param.add(row_11_start_x + "");//x轴起始位置
+            param.add(row_31_start_y + "");//y轴起始位置
+            param.add(head_name);//文本内容
+            context.getObject().ASCII_PrintString(context.getState(), param,
+                    "gb2312");
+            param.clear();
+            // 规格型号
+            int row_41_start_y = row_31_end_y + line_width_separator;
+            int row_41_end_y = row_41_start_y + row_height[3];
+            param.add("");//旋转角度 “”为不旋转，90，180 ，270 为旋转的角度参数
+            param.add("24");//24比GBUNSG16字体要大，打印中文
+            param.add("0");//字大小
+            param.add(row_11_start_x + "");//x轴起始位置
+            param.add(row_41_start_y + "");//y轴起始位置
+            param.add(head_spec);//文本内容
+            context.getObject().ASCII_PrintString(context.getState(), param,
+                    "gb2312");
+            param.clear();
+            int row_51_start_y = row_41_end_y + line_width_separator + specAddLength;
+            int row_51_end_y = row_51_start_y + row_height[4];
+            param.add("");//旋转角度 “”为不旋转，90，180 ，270 为旋转的角度参数
+            param.add("24");//24比GBUNSG16字体要大，打印中文
+            param.add("0");//字大小
+            param.add(row_11_start_x + "");//x轴起始位置
+            param.add(row_51_start_y + "");//y轴起始位置
+            param.add(head_count);//文本内容
+            context.getObject().ASCII_PrintString(context.getState(), param,
+                    "gb2312");
+            param.clear();
+            int row_61_start_y = row_51_end_y + line_width_separator - 1 * 8;
+            int row_61_end_y = row_61_start_y + 140 - specAddLength + allLong;
+            param.add("");
+            param.add("128");//条码类型
+            param.add("3");//宽度
+            param.add("2");//倍率
+            param.add(barcodeSize + "");//条码高度
+            param.add(row_11_start_x + 30 + "");//X
+            param.add(row_61_start_y + "");//Y位置
+            param.add(barcode);//条码内容
+            context.getObject().ASCII_Print1DBarcode(context.getState(), param, "gb2312");
+            param.clear();
+            param.add("");//旋转角度 “”为不旋转，90，180 ，270 为旋转的角度参数
+            param.add("24");//24比GBUNSG16字体要大，打印中文
+            param.add("0");//字大小
+            param.add(row_11_start_x + 14 * 10 + "");//x轴起始位置
+            param.add(row_61_end_y - 15 + belowLength + "");//y轴起始位置
+            param.add(barcode);//文本内容
+            context.getObject().ASCII_PrintString(context.getState(), param,
+                    "gb2312");
+            param.clear();
+            int row_81_start_y = row_61_end_y + line_width_separator;
+            int row_81_end_y = row_81_start_y + row_height[5];
+            // 第几张 送料人 收料人
+            int row_82_start_x = row_11_start_x + line_width[0]
+                    + line_width_separator;// 最高
+            int row_82_end_x = row_82_start_x + line_width[0];
+            int row_83_start_x = row_82_end_x + line_width[1];// 最高内容
+            int row_83_end_x = row_83_start_x + line_width[2];
+            param.add("");//旋转角度 “”为不旋转，90，180 ，270 为旋转的角度参数
+            param.add("24");//24比GBUNSG16字体要大，打印中文
+            param.add("0");//字大小
+            param.add(row_11_start_x + "");//x轴起始位置
+            param.add(row_81_start_y + 10 + belowLength + "");//y轴起始位置
+            param.add((i + 1) + "/" + printCount);//文本内容
+            context.getObject().ASCII_PrintString(context.getState(), param,
+                    "gb2312");
+            param.clear();
+            param.add("");//旋转角度 “”为不旋转，90，180 ，270 为旋转的角度参数
+            param.add("24");//24比GBUNSG16字体要大，打印中文
+            param.add("0");//字大小
+            param.add(row_82_start_x - 80 + "");//x轴起始位置
+            param.add(row_81_start_y + 10 + belowLength + "");//y轴起始位置
+            param.add("发料人：");//文本内容
+            context.getObject().ASCII_PrintString(context.getState(), param,
+                    "gb2312");
+            param.clear();
+            param.add("");//旋转角度 “”为不旋转，90，180 ，270 为旋转的角度参数
+            param.add("24");//24比GBUNSG16字体要大，打印中文
+            param.add("0");//字大小
+            param.add(row_83_start_x - 80 + "");//x轴起始位置
+            param.add(row_81_start_y + 10 + belowLength + "");//y轴起始位置
+            param.add("收料人：");//文本内容
+            context.getObject().ASCII_PrintString(context.getState(), param,
+                    "gb2312");
+            param.clear();
+            param.add("");//旋转角度 “”为不旋转，90，180 ，270 为旋转的角度参数
+            param.add("24");//24比GBUNSG16字体要大，打印中文
+            param.add("0");//字大小
+            param.add(row_11_start_x + "");//x轴起始位置
+            param.add(row_81_start_y + 40 + belowLength + "");//y轴起始位置
+            param.add(head_time);//文本内容
+            context.getObject().ASCII_PrintString(context.getState(), param,
+                    "gb2312");
+            context.getObject().CON_PageEnd(context.getState(),
+                    context.getPrintway());
+        }
+    }
+
+    public void printInTabCPCL(CustomerApplication context, String projectName, String supper,
+                               String goodsName, String
+                                       spec, String count, String barcode, int
+                                       printCount) {
+        for (int i = 0; i < printCount; i++) {
+            context.getObject().CON_PageStart(context.getState(), false, 300, 440);
+            ArrayList<String> param = new ArrayList<String>();
+//            spec = "哦氨茶碱从拉萨路东南角垃圾偶就哦您就哦您就欧尼事实上实施从萨顶顶";
+//            projectName="哦氨茶碱从拉萨路东南角垃圾偶就哦您就哦您就欧尼事实上实施从萨顶顶";
+            if (spec.length()>70){
+                spec=spec.substring(0,70);
+            }
+            String head_projectName = "项 目 部:" + projectName;
+            String head_user = "供 应 商:" + supper;
+            String head_name = "材料名称:" + goodsName;
+            String head_count = "数    量:" + count;
+            String head_spec = "规格型号:" + spec;
+            int row_11_start_x = 1 * 8 + line_width_border;
+            int row_11_start_y = line_width_border + 10;
+            int row_11_end_y = row_11_start_y + row_height[0];
+            param.add("");//旋转角度 “”为不旋转，90，180 ，270 为旋转的角度参数
+            param.add("24");//24比GBUNSG16字体要大，打印中文
+            param.add("0");//字大小
+            param.add(row_11_start_x + "");//x轴起始位置
+            param.add(row_11_start_y + "");//y轴起始位置
+            param.add(head_projectName);//文本内容
+            context.getObject().ASCII_PrintString(context.getState(), param,
+                    "gb2312");
+            param.clear();
+            int nameLength = projectName.length();
+            int addLength = 0;
+            int barcodeSize = 160;
+            int belowLength = 30;
+            if (nameLength > 19) {
+                addLength = 30;
+                barcodeSize = 130;
+                belowLength = 0;
+            }
+            int specAddLength = 0;
+            if (spec.length() > 22) {
+                specAddLength = 30;
+                barcodeSize = 130;
+            }
+            int allLong = 0;
+            if (spec.length() > 22 && nameLength > 19) {
+                allLong = 30;
+            }
+            int row_21_start_y = row_11_end_y + line_width_separator + addLength;
+            int row_21_end_y = row_21_start_y + row_height[1];
+            param.add("");//旋转角度 “”为不旋转，90，180 ，270 为旋转的角度参数
+            param.add("24");//24比GBUNSG16字体要大，打印中文
+            param.add("0");//字大小
+            param.add(row_11_start_x + "");//x轴起始位置
+            param.add(row_21_start_y + "");//y轴起始位置
+            param.add(head_user);//文本内容
+            context.getObject().ASCII_PrintString(context.getState(), param,
+                    "gb2312");
+            param.clear();
+
+            int row_31_start_y = row_21_end_y + line_width_separator;
+            int row_31_end_y = row_31_start_y + row_height[2];
+            param.add("");//旋转角度 “”为不旋转，90，180 ，270 为旋转的角度参数
+            param.add("24");//24比GBUNSG16字体要大，打印中文
+            param.add("0");//字大小
+            param.add(row_11_start_x + "");//x轴起始位置
+            param.add(row_31_start_y + "");//y轴起始位置
+            param.add(head_name);//文本内容
+            context.getObject().ASCII_PrintString(context.getState(), param,
+                    "gb2312");
+            param.clear();
+            // 规格型号
+            int row_41_start_y = row_31_end_y + line_width_separator;
+            int row_41_end_y = row_41_start_y + row_height[3];
+            param.add("");//旋转角度 “”为不旋转，90，180 ，270 为旋转的角度参数
+            param.add("24");//24比GBUNSG16字体要大，打印中文
+            param.add("0");//字大小
+            param.add(row_11_start_x + "");//x轴起始位置
+            param.add(row_41_start_y + "");//y轴起始位置
+            param.add(head_spec);//文本内容
+            context.getObject().ASCII_PrintString(context.getState(), param,
+                    "gb2312");
+            param.clear();
+            int row_51_start_y = row_41_end_y + line_width_separator;
+            int row_51_end_y = row_51_start_y + row_height[4];
+            param.add("");//旋转角度 “”为不旋转，90，180 ，270 为旋转的角度参数
+            param.add("24");//24比GBUNSG16字体要大，打印中文
+            param.add("0");//字大小
+            param.add(row_11_start_x + "");//x轴起始位置
+            param.add(row_51_start_y + specAddLength + "");//y轴起始位置
+            param.add(head_count);//文本内容
+            context.getObject().ASCII_PrintString(context.getState(), param,
+                    "gb2312");
+            param.clear();
+            int row_61_start_y = row_51_end_y + line_width_separator - 1 * 8;
+            int row_61_end_y = row_61_start_y + 140+allLong;
+            param.add("");
+            param.add("128");//条码类型
+            param.add("3");//宽度
+            param.add("2");//倍率
+            param.add(barcodeSize + "");//条码高度
+            param.add(row_11_start_x + 30 + "");//X
+            param.add(row_61_start_y + 10 + specAddLength + "");//Y位置
+//            param.add("0");//Y位置
+            param.add(barcode);//条码内容
+            context.getObject().ASCII_Print1DBarcode(context.getState(), param, "gb2312");
+            param.clear();
+            param.add("");//旋转角度 “”为不旋转，90，180 ，270 为旋转的角度参数
+            param.add("24");//24比GBUNSG16字体要大，打印中文
+            param.add("0");//字大小
+            param.add(row_11_start_x + 14 * 10 + "");//x轴起始位置
+            param.add(row_61_end_y + 10 + belowLength + "");//y轴起始位置
+            param.add(barcode);//文本内容
+            context.getObject().ASCII_PrintString(context.getState(), param,
+                    "gb2312");
+            param.clear();
+            int row_81_start_y = row_61_end_y + line_width_separator;
+            int row_81_end_y = row_81_start_y + row_height[5];
+            // 第几张 送料人 收料人
+            int row_82_start_x = row_11_start_x + line_width[0]
+                    + line_width_separator;// 最高
+            int row_82_end_x = row_82_start_x + line_width[0];
+            int row_83_start_x = row_82_end_x + line_width[1];// 最高内容
+            int row_83_end_x = row_83_start_x + line_width[2];
+            param.add("");//旋转角度 “”为不旋转，90，180 ，270 为旋转的角度参数
+            param.add("24");//24比GBUNSG16字体要大，打印中文
+            param.add("0");//字大小
+            param.add(row_11_start_x + "");//x轴起始位置
+            param.add(row_81_start_y + 40 + belowLength +"");//y轴起始位置
+            param.add((i + 1) + "/" + printCount);//文本内容
+            context.getObject().ASCII_PrintString(context.getState(), param,
+                    "gb2312");
+            param.clear();
+            param.add("");//旋转角度 “”为不旋转，90，180 ，270 为旋转的角度参数
+            param.add("24");//24比GBUNSG16字体要大，打印中文
+            param.add("0");//字大小
+            param.add(row_82_start_x - 80 + "");//x轴起始位置
+            param.add(row_81_start_y + 40 + belowLength +"");//y轴起始位置
+            param.add("送料人：");//文本内容
+            context.getObject().ASCII_PrintString(context.getState(), param,
+                    "gb2312");
+            param.clear();
+            param.add("");//旋转角度 “”为不旋转，90，180 ，270 为旋转的角度参数
+            param.add("24");//24比GBUNSG16字体要大，打印中文
+            param.add("0");//字大小
+            param.add(row_83_start_x - 80 + "");//x轴起始位置
+            param.add(row_81_start_y + 40 + belowLength +"");//y轴起始位置
+            param.add("收料人：");//文本内容
+            context.getObject().ASCII_PrintString(context.getState(), param,
+                    "gb2312");
+
+            context.getObject().CON_PageEnd(context.getState(),
+                    context.getPrintway());
+        }
+    }
+}

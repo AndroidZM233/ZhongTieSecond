@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_batch"
+            style="@style/AdapterTextview"
+            android:text="批次"/>
+        <TextView
+            android:id="@+id/tv_count"
+            style="@style/AdapterTextview"
+            android:text="数量"/>
+        <TextView
+            android:id="@+id/tv_location"
+            style="@style/AdapterTextview"
+            android:text="位置"/>
+
+
+
+   <!--     <TextView
+            android:id="@+id/tv_remark"
+            style="@style/AdapterTextview"
+            android:text="备注"/>-->
+
+    </LinearLayout>
+
+</LinearLayout><!-- From: file:/D:/ASproject/ZhongTieSecond/app/src/main/res/layout/adapter_reject_supplier.xml -->

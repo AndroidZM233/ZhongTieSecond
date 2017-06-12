@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/login_background1"
+              android:orientation="vertical"
+              android:weightSum="2">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:singleLine="true"
+            android:id="@+id/login_user_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="80dp"
+            android:paddingLeft="10dp"
+            android:textColor="@color/black"
+            android:drawableLeft="@drawable/user"
+            android:hint="请输入用户名"/>
+
+        <EditText
+            android:singleLine="true"
+            android:id="@+id/login_user_pass"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="请输入密码"
+            android:textColor="@color/black"
+            android:drawableLeft="@drawable/lock"
+            android:inputType="textPassword"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_weight="3"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/login_back_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/u7_image_sketch"
+                android:text="返回"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/login_link_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/u7_image_sketch"
+                android:text="打印器"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/login_login_btn"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_alibuybutton"
+                android:text="登录"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_version"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="right"
+        android:textColor="@color/black"/>
+</LinearLayout>

@@ -1,0 +1,251 @@
+package com.speedata.bean;
+
+import com.elsw.base.db.orm.annotation.Column;
+import com.elsw.base.db.orm.annotation.Id;
+import com.elsw.base.db.orm.annotation.Table;
+
+//调拨信息表
+
+@Table(name = "allotRecord")
+public class AllotRecord {
+
+    @Id
+    @Column(name = "ItemNM")
+    // 内码
+    private String ItemNM;
+
+    @Column(name = "ProjectID")
+    // 项目编码
+    private String ProjectID;
+
+    @Column(name = "OrderDate")
+    // 发料日期
+    private String OrderDate;
+
+    @Column(name = "OrderTime")
+    // 发料时间
+    private String OrderTime;
+
+    @Column(name = "LabourNM")
+    // 施工队内码
+    private String LabourNM;
+
+    @Column(name = "LabourName")
+    // 施工队名称
+    private String LabourName;
+
+    @Column(name = "InfoCode")
+    // 材料编码
+    private String InfoCode;
+
+    @Column(name = "InfoName")
+    // 材料名称
+    private String InfoName;
+
+    @Column(name = "InfoModel")
+    // 规格型号
+    private String InfoModel;
+
+    @Column(name = "InfoUnit")
+    // 单位
+    private String InfoUnit;
+
+    @Column(name = "BarCode")
+    // 条码
+    private String BarCode;
+
+    @Column(name = "InfoClassNodebh")
+    // 类别编码
+    private String InfoClassNodebh;
+
+    @Column(name = "InfoClassName")
+    // 三级类别名称
+    private String InfoClassName;
+
+    @Column(name = "SecondClassName")
+    // 二级类别名称
+    private String SecondClassName;
+
+    @Column(name = "FirstClassName")
+    // 一级类别名称
+    private String FirstClassName;
+
+    @Column(name = "Quantity")
+    // 数量
+    private double Quantity;
+
+    @Column(name = "Maker")
+    // 制单人
+    private String Maker;
+
+    @Column(name = "Remark")
+    // 备注
+    private String Remark;
+
+
+    public String getOrderTime() {
+        return OrderTime;
+    }
+
+    public void setOrderTime(String orderTime) {
+        OrderTime = orderTime;
+    }
+
+    public String getItemNM() {
+        return ItemNM;
+    }
+
+    public void setItemNM(String itemNM) {
+        ItemNM = itemNM;
+    }
+
+    public String getProjectID() {
+        return ProjectID;
+    }
+
+    public void setProjectID(String projectID) {
+        ProjectID = projectID;
+    }
+
+    public String getOrderDate() {
+        return OrderDate;
+    }
+
+    public void setOrderDate(String orderDate) {
+        OrderDate = orderDate;
+    }
+
+    public String getLabourNM() {
+        return LabourNM;
+    }
+
+    public void setLabourNM(String labourNM) {
+        LabourNM = labourNM;
+    }
+
+    public String getLabourName() {
+        return LabourName;
+    }
+
+    public void setLabourName(String labourName) {
+        LabourName = labourName;
+    }
+
+    public String getInfoCode() {
+        return InfoCode;
+    }
+
+    public void setInfoCode(String infoCode) {
+        InfoCode = infoCode;
+    }
+
+    public String getInfoName() {
+        return InfoName;
+    }
+
+    public void setInfoName(String infoName) {
+        InfoName = infoName;
+    }
+
+    public String getInfoModel() {
+        return InfoModel;
+    }
+
+    public void setInfoModel(String infoModel) {
+        InfoModel = infoModel;
+    }
+
+    public String getInfoUnit() {
+        return InfoUnit;
+    }
+
+    public void setInfoUnit(String infoUnit) {
+        InfoUnit = infoUnit;
+    }
+
+    public String getBarCode() {
+        return BarCode;
+    }
+
+    public void setBarCode(String barCode) {
+        BarCode = barCode;
+    }
+
+    public String getInfoClassNodebh() {
+        return InfoClassNodebh;
+    }
+
+    public void setInfoClassNodebh(String infoClassNodebh) {
+        InfoClassNodebh = infoClassNodebh;
+    }
+
+    public String getInfoClassName() {
+        return InfoClassName;
+    }
+
+    public void setInfoClassName(String infoClassName) {
+        InfoClassName = infoClassName;
+    }
+
+    public String getSecondClassName() {
+        return SecondClassName;
+    }
+
+    public void setSecondClassName(String secondClassName) {
+        SecondClassName = secondClassName;
+    }
+
+    public String getFirstClassName() {
+        return FirstClassName;
+    }
+
+    public void setFirstClassName(String firstClassName) {
+        FirstClassName = firstClassName;
+    }
+
+    public double getQuantity() {
+        return Quantity;
+    }
+
+    public void setQuantity(double quantity) {
+        Quantity = quantity;
+    }
+
+    public String getMaker() {
+        return Maker;
+    }
+
+    public void setMaker(String maker) {
+        Maker = maker;
+    }
+
+    public String getRemark() {
+        return Remark;
+    }
+
+    public void setRemark(String remark) {
+        Remark = remark;
+    }
+
+    @Override
+    public String toString() {
+        return "OutRegister{" +
+                "BarCode='" + BarCode + '\'' +
+                ", ItemNM=" + ItemNM +
+                ", ProjectID='" + ProjectID + '\'' +
+                ", OrderDate='" + OrderDate + '\'' +
+                ", LabourNM=" + LabourNM +
+                ", LabourName='" + LabourName + '\'' +
+                ", InfoCode='" + InfoCode + '\'' +
+                ", InfoName='" + InfoName + '\'' +
+                ", InfoModel='" + InfoModel + '\'' +
+                ", InfoUnit='" + InfoUnit + '\'' +
+                ", InfoClassNodebh='" + InfoClassNodebh + '\'' +
+                ", InfoClassName='" + InfoClassName + '\'' +
+                ", SecondClassName='" + SecondClassName + '\'' +
+                ", FirstClassName='" + FirstClassName + '\'' +
+                ", Quantity=" + Quantity +
+                ", Remark='" + Remark + '\'' +
+                '}';
+    }
+}

@@ -1,0 +1,134 @@
+<resources>
+
+    <string name="app_name">易龙条码管理系统</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_in_register">InRegisterActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_supplier_reject">SupplierRejectActivity</string>
+
+
+    <string name="not_connected">请先连接蓝牙打印机（菜单-&amp;gt;连接）</string>
+    <string name="bt_not_enabled">蓝牙没有启动</string>
+    <string name="bt_has_on">蓝牙已打开</string>
+    <string name="bt_has_off">蓝牙已关闭</string>
+    <string name="bt_print_success">打印成功</string>
+    <string name="bt_print_failed">打印失败</string>
+    <string name="bt_connecting">正在连接..</string>
+    <string name="bt_connect_success">连接成功..</string>
+    <string name="bt_connect_failed">连接失败</string>
+    <string name="bt_connect_closed">连接已关闭</string>
+    <string name="title_connecting">正在连接...</string>
+    <string name="title_connected">已连接</string>
+    <string name="title_not_connected">未连接</string>
+    <!--  DeviceListActivity -->
+    <string name="scanning">扫描设备中...</string>
+    <string name="select_device">请选择要连接的设备</string>
+    <string name="none_paired">没有匹配的设备</string>
+    <string name="has_paired">已配对</string>
+    <string name="not_paired">未配对</string>
+    <string name="rePaire_connect">重新配对并连接</string>
+    <string name="unpair">取消配对</string>
+    <string name="paire_connect">配对并连接</string>
+    <string name="connect_paired">连接</string>
+    <string name="select_options">选择操作</string>
+    <string name="none_found">没有找到设备</string>
+    <string name="no_bounded_device">未找到名称以 %s 开头的设备</string>
+    <string name="title_paired_devices">已配对的设备</string>
+    <string name="title_other_devices">其它可用设备</string>
+    <string name="button_scan">扫描新设备</string>
+    <!-- Options Menu -->
+    <string name="connect">打开连接</string>
+    <string name="disconnect">断开连接</string>
+    <!-- main.xml -->
+    <string name="edit_hint">打印机名称(如T9)</string>
+    <string name="print_text">打印文本</string>
+    <string name="print_table">打印表格</string>
+    <string name="print_image">打印图片</string>
+    <string name="print_custom_image">打印自定义图形</string>
+    <string name="print_note">打印小票</string>
+    <string name="print_title">打印标题</string>
+    <string name="bar_code_hint">输入条码，例如:No.123456</string>
+    <string name="print_bar_code">打印条码</string>
+    <string name="open_file">打开文件</string>
+    <string name="save_file">保存文件</string>
+    <string name="save_as_file">另存文件</string>
+    <string name="print_file">打印文件</string>
+    <string name="save_ok">确定</string>
+    <string name="save_cancel">取消</string>
+    <string name="toast_input_name">请输入文件名!</string>
+    <string name="toast_save_null">请勿保存空文件!</string>
+    <string name="toast_print_null">请勿打印空文件!</string>
+    <string name="toast_save_success">保存成功!</string>
+    <string name="input_file_name">请输入文件名称:</string>
+    <string name="back_to_root">返回根目录...</string>
+    <string name="back_to_pre">返回上一级...</string>
+    <string name="file_manager">文件管理</string>
+    <string name="editText_print">文本打印</string>
+    <string name="conn_false">请重新搜索</string>
+    <string name="bonded_devices">已配对的设备</string>
+    <string name="available_devices">可用设备</string>
+    <string name="available_devices_searching">查找附近的可用设备</string>
+
+    <string name="available_devices_done">查找可用设备完毕</string>
+    <string name="printer_sprt">SPRT</string>
+    <string name="clearinfo_btn">清除保存的蓝牙地址</string>
+    <string name="print_btn">打印</string>
+
+
+    <string name="no_conn_address">地址：未连接</string>
+    <string name="no_conn_name">名称：未连接</string>
+    <string name="str_address">地址：</string>
+    <string name="str_name">名称：</string>
+    <string name="str_message">提示：</string>
+    <string name="str_connlast">是否连接到上次设备？</string>
+    <string name="yesconn">确认连接</string>
+    <string name="str_resel">重新搜索</string>
+    <string name="str_wifi_now">当前连接的wifi是：</string>
+    <string name="str_wifi_no">尚未连接到任何wifi网络</string>
+    <string name="print">打印</string>
+    <string name="conn_failed">连接失败</string>
+    <string name="conn_closed">连接关闭</string>
+    <string name="conn_no">没有可连接的设备</string>
+    <string name="password">请输入密码：</string>
+    <string name="cancel">取消</string>
+    <string name="barcode">请选择条码类型：</string>
+    <string name="codepage">请选择代码页类型：</string>
+    <string name="str_image">打印图片效果展示：</string>
+    <string name="str_canvas">打印画布效果展示：</string>
+    <string name="str_file">打印文件效果展示：</string>
+    <string name="str_label">打印标签效果展示：</string>
+    <string name="str_text">打印文本效果展示：</string>
+    <string name="str_text_left">文字居左效果演示abc123：</string>
+    <string name="str_text_right">文字居右效果演示abc123：</string>
+    <string name="str_text_center">文字居中效果演示abc123：</string>
+    <string name="str_text_strong">文字加粗效果演示abc123：</string>
+    <string name="str_text_underline">文字下划线效果演示abc123：</string>
+    <string name="str_text_height">同行不同高效果演示：：</string>
+    <string name="str_note">打印小票效果演示：</string>
+    <string name="str_show">演示：</string>
+    <string name="note_label">此项功能仅支持标签打印机。</string>
+    <string name="times">倍</string>
+    <string name="bigger">放大</string>
+    <string name="bigger1">倍效果演示abc123</string>
+    <string name="title_activity_print">PrintActivity</string>
+    <string name="title_activity_check_register">CheckRegisterActivity</string>
+    <string name="title_activity_user_reject">UserRejectActivity</string>
+    <string name="title_activity_in_up_load">InUpLoadActivity</string>
+    <string name="title_activity_set_service_url">SetServiceURLActivity</string>
+    <string name="title_activity_in_down_load">InDownLoadActivity</string>
+    <string name="title_activity_out_upload">OutUploadActivity</string>
+    <string name="title_activity_out_down_load">OutDownLoadActivity</string>
+    <string name="title_activity_check_up_load">CheckUpLoadActivity</string>
+    <string name="title_activity_check_down_load">CheckDownLoadActivity</string>
+    <string name="title_activity_add_user">AddUserActivity</string>
+    <string name="title_activity_delect_user">DelectUserActivity</string>
+    <string name="title_activity_change_project_id">ChangeProjectIdActivity</string>
+    <string name="title_activity_change_pwd">ChangePwdActivity</string>
+    <string name="title_activity_set_auto_update">SetAutoUpdateActivity</string>
+    <string name="title_activity_print_test">PrintTestActivity</string>
+    <string name="title_activity_for_print_lable">ForPrintLableActivity</string>
+</resources>

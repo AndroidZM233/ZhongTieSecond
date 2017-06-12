@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="D:\ASproject\ZhongTieSecond\app\libs\fastjson-1.2.2.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="b3cd06ff3f21c8cf487c241ed145154fbae6b4e2">
+        <dex dex="D:\ASproject\ZhongTieSecond\app\build\intermediates\pre-dexed\debug\fastjson-1.2.2-29d748dc373ffcb73aac75b8f82fccf7352ac5ed.jar" />
+    </item>
+    <item
+        jar="D:\ASproject\ZhongTieSecond\app\libs\androidprint_sdk.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="ffdcb2d596842d3f7e32608a4bd2b8fbfb367c69">
+        <dex dex="D:\ASproject\ZhongTieSecond\app\build\intermediates\pre-dexed\debug\androidprint_sdk-2f3cc259dd552ab7b6ac82044bfc21962c61aaef.jar" />
+    </item>
+    <item
+        jar="D:\ASproject\ZhongTieSecond\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="D:\ASproject\ZhongTieSecond\app\build\intermediates\pre-dexed\debug\classes-446fd60e035010bfef3d7711a4e9259a64d551e1.jar" />
+    </item>
+    <item
+        jar="D:\ASproject\ZhongTieSecond\app\libs\ksoap2-android-assembly-3.3.0-jar-with-dependencies.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="62681b8212ca52278feafec31775fd0cb096d99a">
+        <dex dex="D:\ASproject\ZhongTieSecond\app\build\intermediates\pre-dexed\debug\ksoap2-android-assembly-3.3.0-jar-with-dependencies-4bbc14b38291dbff464796e7b289c2fc0af25a90.jar" />
+    </item>
+    <item
+        jar="G:\Android studio\sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.1\support-annotations-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="D:\ASproject\ZhongTieSecond\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.1-f51ed735ddb1d776e409555a55344efd66f6f5fa.jar" />
+    </item>
+    <item
+        jar="D:\ASproject\ZhongTieSecond\app\libs\sprtlabelprinterlibrary.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="13306a75beb35eccbb7a90d5340121ceae5e32b2">
+        <dex dex="D:\ASproject\ZhongTieSecond\app\build\intermediates\pre-dexed\debug\sprtlabelprinterlibrary-6ffa05fbf2bfde26f39fef9a6dfc00d54128f782.jar" />
+    </item>
+    <item
+        jar="D:\ASproject\ZhongTieSecond\app\libs\orm.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="e6680ca2c302eeacdcf71ae1a5d4652f132f4e7d">
+        <dex dex="D:\ASproject\ZhongTieSecond\app\build\intermediates\pre-dexed\debug\orm-0a4cb0ae4477901df3288bb72f841424163a4457.jar" />
+    </item>
+    <item
+        jar="D:\ASproject\ZhongTieSecond\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\libs\internal_impl-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="D:\ASproject\ZhongTieSecond\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.1-995b8bb3ae63c945c6d4773240cd223c40fc6143.jar" />
+    </item>
+    <item
+        jar="D:\ASproject\ZhongTieSecond\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="D:\ASproject\ZhongTieSecond\app\build\intermediates\pre-dexed\debug\classes-57d8f012a8cbf4724af18260705f0cdc30d292db.jar" />
+    </item>
+
+</items>

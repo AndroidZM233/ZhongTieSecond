@@ -1,0 +1,37 @@
+package com.speedata.activity.print;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+
+import com.speedata.dreamdemo.R;
+
+public class PrintTestActivity extends PrintActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_print_test);
+        conn_state = (TextView) findViewById(R.id.connect_state);
+//        conn_state.setOnClickListener(this);
+        conn_name = (TextView) findViewById(R.id.connect_name);
+    }
+
+    public void onClick(View v) {
+        //(String projectName, String user,
+//       String name, String
+//       spec, String count, String barcode, String time){
+        printOutLable("豪华铁路10标1区", "中铁一局隧道分公司", "围栏杆", "XX", "F82平方米", "20150308185900", "2016-03-08",2);
+    }
+
+    private TextView conn_state,conn_name;
+    @Override
+    public void showConnectState(String state) {
+        conn_state.setText(state);
+    }
+
+    @Override
+    public void showPrintName(String name) {
+        conn_name.setText(name);
+    }
+}
